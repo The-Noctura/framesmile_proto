@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Framesmile — Photobooth Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink-50: #FFF0F5;
+    --pink-100: #FFD6E7;
+    --pink-200: #FFB3CF;
+    --pink-400: #F472B6;
+    --pink-500: #EC4899;
+    --pink-600: #DB2777;
+    --pink-800: #9D174D;
+    --pink-900: #6B0F36;
+    --rose-100: #FFE4E6;
+    --nude: #FDF6F0;
+    --cream: #FFFAF7;
+    --charcoal: #1C1018;
+    --muted: #7D6473;
+    --border: rgba(212, 83, 126, 0.15);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 5%;
+    background: rgba(255,250,247,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--pink-800);
+    text-decoration: none;
+  }
+  .logo span { color: var(--pink-500); font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--pink-600); }
+  .nav-cta {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--pink-600);
+    border: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--pink-800); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 5% 5rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD6E7 0%, transparent 70%);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFE4E6 0%, transparent 70%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pink-600);
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--pink-400);
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 5.5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--pink-600);
+  }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--pink-600);
+    padding: 0.9rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--pink-800); transform: translateY(-1px); }
+  .btn-secondary {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pink-700, #be185d);
+    background: transparent;
+    border: 1px solid var(--pink-300, #f9a8d4);
+    padding: 0.9rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--pink-50); border-color: var(--pink-500); }
+
+  /* Hero Visual */
+  .hero-visual {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .polaroid-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 420px;
+  }
+  .polaroid {
+    background: white;
+    padding: 0.75rem 0.75rem 2.5rem;
+    box-shadow: 0 4px 24px rgba(155, 23, 77, 0.08), 0 1px 4px rgba(0,0,0,0.04);
+    transition: transform 0.3s;
+  }
+  .polaroid:hover { transform: scale(1.03) rotate(0deg) !important; }
+  .polaroid:nth-child(1) { transform: rotate(-3deg); }
+  .polaroid:nth-child(2) { transform: rotate(2deg); margin-top: 1.5rem; }
+  .polaroid:nth-child(3) { transform: rotate(1.5deg); margin-top: -1rem; }
+  .polaroid:nth-child(4) { transform: rotate(-2deg); }
+  .polaroid-img {
+    width: 100%; aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+  }
+  .polaroid-face {
+    width: 100%; aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    background: var(--pink-50);
+  }
+  .polaroid-caption {
+    font-family: var(--serif);
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+  .badge-instant {
+    position: absolute;
+    bottom: -1rem; right: -1rem;
+    background: var(--pink-600);
+    color: white;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(219, 39, 119, 0.35);
+    animation: spin-slow 12s linear infinite;
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .badge-inner { animation: spin-slow 12s linear infinite reverse; font-size: 1.2rem; }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    background: var(--charcoal);
+    color: white;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .stat-item {
+    flex: 1; min-width: 180px;
+    padding: 2rem;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--pink-200);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 6rem 5%; }
+  .section-tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pink-500);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--charcoal);
+    margin-bottom: 1.25rem;
+  }
+  .section-title em { font-style: italic; color: var(--pink-600); }
+  .section-desc {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--muted);
+    max-width: 540px;
+  }
+
+  /* ─── SERVICES ─── */
+  #services { background: var(--nude); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  .service-card {
+    background: white;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--pink-400);
+    transition: height 0.3s;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(155,23,77,0.08); }
+  .service-card:hover::before { height: 100%; }
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+  .service-name {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.75rem;
+  }
+  .service-desc { font-size: 0.875rem; line-height: 1.8; color: var(--muted); }
+  .service-tag {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pink-600);
+    background: var(--pink-50);
+    padding: 0.3rem 0.75rem;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  #how { background: var(--cream); }
+  .steps-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 3.5rem;
+  }
+  .steps-list { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step:first-child { padding-top: 0; }
+  .step:last-child { border-bottom: none; }
+  .step:hover .step-num { color: var(--pink-600); }
+  .step-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--pink-200);
+    line-height: 1;
+    min-width: 2.5rem;
+    transition: color 0.2s;
+  }
+  .step-body {}
+  .step-name {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+  }
+  .step-info { font-size: 0.875rem; line-height: 1.75; color: var(--muted); }
+
+  .steps-visual {
+    position: relative;
+    background: white;
+    border: 1px solid var(--border);
+    padding: 3rem;
+    text-align: center;
+  }
+  .mockup-screen {
+    background: var(--pink-50);
+    border: 1px solid var(--pink-100);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .tmpl {
+    aspect-ratio: 3/4;
+    border: 1.5px solid var(--pink-200);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pink-400);
+    background: white;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .tmpl:hover, .tmpl.active { background: var(--pink-600); color: white; border-color: var(--pink-600); }
+  .tmpl:nth-child(1) { background: var(--pink-600); color: white; border-color: var(--pink-600); }
+  .mockup-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  .print-preview {
+    display: flex; gap: 0.75rem; justify-content: center;
+    margin: 1rem 0;
+  }
+  .strip {
+    width: 52px;
+    background: var(--pink-100);
+    border: 1px solid var(--pink-200);
+    padding: 4px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .strip-frame {
+    width: 100%; aspect-ratio: 1;
+    background: white;
+    border: 1px solid var(--pink-200);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.5rem; color: var(--pink-300);
+  }
+  .strip-bottom {
+    padding: 4px 2px 2px;
+    font-size: 0.45rem;
+    font-family: var(--serif);
+    font-style: italic;
+    text-align: center;
+    color: var(--pink-600);
+  }
+  .instant-badge-visual {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: #FFF0F5;
+    border: 1px solid var(--pink-200);
+    padding: 0.5rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--pink-800);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── USP SECTION ─── */
+  #usp { background: var(--charcoal); color: white; }
+  #usp .section-title { color: white; }
+  #usp .section-title em { color: var(--pink-300); }
+  #usp .section-desc { color: rgba(255,255,255,0.5); }
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2px;
+    margin-top: 4rem;
+  }
+  .usp-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 2.5rem 2rem;
+    transition: background 0.3s;
+  }
+  .usp-card:hover { background: rgba(244,114,182,0.08); }
+  .usp-num {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--pink-600);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .usp-title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.01em;
+  }
+  .usp-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(255,255,255,0.45); }
+
+  /* ─── EVENTS ─── */
+  #events { background: var(--nude); }
+  .events-masonry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+  .event-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: white;
+    border: 1px solid var(--border);
+  }
+  .event-card:nth-child(1) { grid-row: span 2; }
+  .event-face {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--pink-50), var(--rose-100));
+    transition: transform 0.4s;
+  }
+  .event-card:nth-child(1) .event-face { min-height: 280px; }
+  .event-face-sm { min-height: 130px; }
+  .event-card:hover .event-face { transform: scale(1.04); }
+  .event-info { padding: 1.25rem 1.5rem; }
+  .event-name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.35rem;
+  }
+  .event-sub { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials { background: var(--cream); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  .testi-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+  }
+  .testi-quote {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--pink-200);
+    line-height: 0.8;
+    margin-bottom: 1rem;
+  }
+  .testi-text {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--charcoal);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+  .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+  .testi-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    background: var(--pink-100);
+  }
+  .testi-name {
+    font-size: 0.85rem; font-weight: 500; color: var(--charcoal);
+    margin-bottom: 0.15rem;
+  }
+  .testi-event { font-size: 0.75rem; color: var(--muted); }
+  .stars { color: var(--pink-400); font-size: 0.75rem; margin-bottom: 0.75rem; }
+
+  /* ─── CTA SECTION ─── */
+  #cta {
+    background: var(--pink-600);
+    color: white;
+    text-align: center;
+    padding: 6rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta::before {
+    content: '';
+    position: absolute; top: -100px; left: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  #cta::after {
+    content: '';
+    position: absolute; bottom: -80px; right: -80px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(0,0,0,0.05);
+  }
+  #cta .section-title {
+    color: white;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    max-width: 700px;
+    margin: 0 auto 1rem;
+  }
+  #cta .section-title em { color: var(--pink-100); }
+  #cta .section-desc { color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto 2.5rem; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-white {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--pink-700, #be185d); background: white;
+    padding: 0.9rem 2rem; border-radius: 2px; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-white:hover { background: var(--pink-50); transform: translateY(-1px); }
+  .btn-outline-white {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: white; background: transparent; border: 1px solid rgba(255,255,255,0.4);
+    padding: 0.9rem 2rem; border-radius: 2px; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.1); }
+  .cta-contact {
+    margin-top: 2.5rem;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+    position: relative; z-index: 1;
+  }
+  .cta-contact a { color: rgba(255,255,255,0.85); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--charcoal);
+    color: rgba(255,255,255,0.5);
+    padding: 3rem 5%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+  .footer-brand .logo { font-size: 1.4rem; display: inline-block; margin-bottom: 1rem; }
+  .footer-tagline { font-size: 0.85rem; line-height: 1.75; color: rgba(255,255,255,0.35); }
+  .footer-col h4 {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6);
+    margin-bottom: 1.25rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul a { font-size: 0.85rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--pink-300); }
+  .footer-bottom {
+    background: #0f0a0d;
+    color: rgba(255,255,255,0.2);
+    text-align: center;
+    padding: 1rem 5%;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .footer-bottom span { color: var(--pink-400); }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .fade-up-d1 { transition-delay: 0.1s; }
+  .fade-up-d2 { transition-delay: 0.2s; }
+  .fade-up-d3 { transition-delay: 0.3s; }
+  .fade-up-d4 { transition-delay: 0.4s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 6rem 5% 4rem; text-align: center; }
+    .hero-desc { margin: 0 auto 2rem; }
+    .hero-btns { justify-content: center; }
+    .hero-visual { order: -1; }
+    .hero::before, .hero::after { display: none; }
+    .steps-layout { grid-template-columns: 1fr; }
+    .steps-visual { display: none; }
+    .events-masonry { grid-template-columns: 1fr 1fr; }
+    .events-masonry .event-card:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    footer { grid-template-columns: 1fr 1fr; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="logo">frame<span>smile</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Layanan</a></li>
+    <li><a href="#how">Cara Kerja</a></li>
+    <li><a href="#events">Event</a></li>
+    <li><a href="#testimonials">Testimoni</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Pesan Sekarang</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Photobooth Profesional</div>
+    <h1>Cetak Kenangan,<br><em>Abadikan Momen</em><br>Spesialmu</h1>
+    <p class="hero-desc">Layanan photobooth terpercaya untuk wisuda, pernikahan, dan semua acara besar. Cetak langsung di tempat dengan ratusan template eksklusif yang bisa kamu custom sendiri.</p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-primary">Konsultasi Gratis</a>
+      <a href="#services" class="btn-secondary">Lihat Paket</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="polaroid-grid">
+      <div class="polaroid">
+        <div class="polaroid-face">🎓</div>
+        <p class="polaroid-caption">Wisuda 2024</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-face">💍</div>
+        <p class="polaroid-caption">Wedding Day</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-face">🎉</div>
+        <p class="polaroid-caption">Corporate Party</p>
+      </div>
+      <div class="polaroid">
+        <div class="polaroid-face">🌸</div>
+        <p class="polaroid-caption">Sweet Seventeen</p>
+      </div>
+    </div>
+    <div class="badge-instant">
+      <span class="badge-inner">📸</span>
+      Cetak<br>Langsung
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number">500<span style="font-size:1.8rem">+</span></div>
+    <div class="stat-label">Event Terlayani</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">200<span style="font-size:1.8rem">+</span></div>
+    <div class="stat-label">Template Eksklusif</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">50K<span style="font-size:1.8rem">+</span></div>
+    <div class="stat-label">Foto Tercetak</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">4.9<span style="font-size:1.8rem">★</span></div>
+    <div class="stat-label">Rating Klien</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="fade-up">
+    <span class="section-tag">Paket Layanan</span>
+    <h2 class="section-title">Semua yang Kamu Butuhkan<br>untuk <em>Foto Sempurna</em></h2>
+    <p class="section-desc">Kami hadir lengkap — dari setup booth, operator profesional, hingga cetak foto langsung di acara kamu.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up fade-up-d1">
+      <span class="service-icon">🎓</span>
+      <h3 class="service-name">Wisuda</h3>
+      <p class="service-desc">Abadikan momen kelulusan bersama keluarga dan sahabat dengan frame eksklusif bertema kampus dan universitas pilihan.</p>
+      <span class="service-tag">Paket Populer</span>
+    </div>
+    <div class="service-card fade-up fade-up-d2">
+      <span class="service-icon">💍</span>
+      <h3 class="service-name">Pernikahan</h3>
+      <p class="service-desc">Tambah keseruan resepsi dengan photobooth elegan. Template mewah yang bisa dipersonalisasi dengan nama dan tanggal pernikahanmu.</p>
+      <span class="service-tag">Terfavorit</span>
+    </div>
+    <div class="service-card fade-up fade-up-d3">
+      <span class="service-icon">🏢</span>
+      <h3 class="service-name">Corporate Event</h3>
+      <p class="service-desc">Solusi photobooth profesional untuk gathering, launching produk, pameran, dan semua acara perusahaan kamu.</p>
+      <span class="service-tag">Tersedia Logo Brand</span>
+    </div>
+    <div class="service-card fade-up fade-up-d4">
+      <span class="service-icon">✨</span>
+      <h3 class="service-name">Event Spesial</h3>
+      <p class="service-desc">Ulang tahun, sweet seventeen, reunian, atau apapun momennya — kami siap hadir dengan setup photobooth yang meriah dan berkesan.</p>
+      <span class="service-tag">All Event</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="fade-up">
+    <span class="section-tag">Cara Kerja</span>
+    <h2 class="section-title">Mudah, Cepat,<br>dan <em>Langsung Jadi</em></h2>
+    <p class="section-desc">Dari pesan hingga foto tercetak — prosesnya sederhana dan menyenangkan.</p>
+  </div>
+  <div class="steps-layout">
+    <div class="steps-list fade-up">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <div class="step-name">Pilih & Pesan Paket</div>
+          <p class="step-info">Konsultasi dengan tim kami, pilih paket yang sesuai kebutuhan, dan tentukan tanggal event kamu.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <div class="step-name">Custom Template</div>
+          <p class="step-info">Pilih dari 200+ template eksklusif atau request desain custom sesuai tema acara dan preferensimu.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <div class="step-name">Setup di Lokasi</div>
+          <p class="step-info">Tim profesional kami datang tepat waktu, setup booth, dan siap beroperasi sebelum tamu tiba.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <div class="step-name">Foto & Cetak Langsung</div>
+          <p class="step-info">Tamu foto, pilih template, dan dalam hitungan detik — foto langsung tercetak cantik untuk dibawa pulang!</p>
+        </div>
+      </div>
+    </div>
+    <div class="steps-visual fade-up fade-up-d2">
+      <p style="font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;">Pilih Template</p>
+      <div class="mockup-screen">
+        <div class="template-grid">
+          <div class="tmpl">Floral</div>
+          <div class="tmpl">Modern</div>
+          <div class="tmpl">Vintage</div>
+          <div class="tmpl">Elegant</div>
+          <div class="tmpl">Colorful</div>
+          <div class="tmpl">Minima</div>
+        </div>
+        <p class="mockup-label">200+ template tersedia</p>
+      </div>
+      <p style="font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">Preview Hasil Cetak</p>
+      <div class="print-preview">
+        <div class="strip">
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-bottom">framesmile</div>
+        </div>
+        <div class="strip" style="opacity:0.6;">
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-bottom">framesmile</div>
+        </div>
+        <div class="strip" style="opacity:0.35;">
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-frame">📷</div>
+          <div class="strip-bottom">framesmile</div>
+        </div>
+      </div>
+      <div class="instant-badge-visual">
+        ⚡ Tercetak dalam 10 detik
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USP -->
+<section id="usp">
+  <div class="fade-up" style="max-width:600px;">
+    <span class="section-tag" style="color:var(--pink-300);">Keunggulan Kami</span>
+    <h2 class="section-title">Kenapa Pilih<br><em>Framesmile?</em></h2>
+    <p class="section-desc">Kami bukan sekadar photobooth biasa. Ini yang membuat kami berbeda.</p>
+  </div>
+  <div class="usp-grid fade-up">
+    <div class="usp-card">
+      <div class="usp-num">200+</div>
+      <h3 class="usp-title">Template Eksklusif</h3>
+      <p class="usp-desc">Ratusan pilihan template premium yang terus diperbarui. Dari elegan hingga playful — semua ada.</p>
+    </div>
+    <div class="usp-card">
+      <div class="usp-num">∞</div>
+      <h3 class="usp-title">Custom Bebas</h3>
+      <p class="usp-desc">Nama, tanggal, warna, elemen desain — semuanya bisa dikustomisasi sesuai keinginanmu tanpa biaya tambahan.</p>
+    </div>
+    <div class="usp-card">
+      <div class="usp-num">10s</div>
+      <h3 class="usp-title">Cetak Instant</h3>
+      <p class="usp-desc">Teknologi printer thermal terkini memungkinkan foto tercetak dalam 10 detik. Langsung bisa dibawa pulang.</p>
+    </div>
+    <div class="usp-card">
+      <div class="usp-num">Pro</div>
+      <h3 class="usp-title">Tim Profesional</h3>
+      <p class="usp-desc">Operator terlatih dan ramah yang siap membantu tamu kamu berpose dan menghasilkan foto terbaik.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="fade-up">
+    <span class="section-tag">Galeri Event</span>
+    <h2 class="section-title">Hadir di Berbagai<br><em>Momen Spesial</em></h2>
+    <p class="section-desc">Framesmile dipercaya hadir di ratusan event dari berbagai kategori di seluruh Jawa Barat.</p>
+  </div>
+  <div class="events-masonry fade-up">
+    <div class="event-card">
+      <div class="event-face" style="min-height:280px; font-size:5rem;">🎓</div>
+      <div class="event-info">
+        <div class="event-name">Wisuda & Kelulusan</div>
+        <p class="event-sub">Momen terbahagia bertambah berkesan dengan foto bertema akademis yang elegan dan personal.</p>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-face event-face-sm" style="font-size:3.5rem;">💍</div>
+      <div class="event-info">
+        <div class="event-name">Wedding & Engagement</div>
+        <p class="event-sub">Photobooth romantis untuk melengkapi hari bahagiamu.</p>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-face event-face-sm" style="font-size:3.5rem;">🎂</div>
+      <div class="event-info">
+        <div class="event-name">Birthday & Sweet 17</div>
+        <p class="event-sub">Perayaan ulang tahun yang semakin meriah dan penuh warna.</p>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-face event-face-sm" style="font-size:3.5rem;">🏢</div>
+      <div class="event-info">
+        <div class="event-name">Corporate & Pameran</div>
+        <p class="event-sub">Brand experience yang tak terlupakan untuk tamu undanganmu.</p>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-face event-face-sm" style="font-size:3.5rem;">🎊</div>
+      <div class="event-info">
+        <div class="event-name">Gathering & Reunian</div>
+        <p class="event-sub">Jadikan momen kebersamaan lebih berkesan dan abadi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="fade-up">
+    <span class="section-tag">Testimoni</span>
+    <h2 class="section-title">Yang Mereka Katakan<br>tentang <em>Framesmile</em></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card fade-up fade-up-d1">
+      <div class="stars">★★★★★</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Photobooth-nya kece banget! Templatenya bisa disesuaikan dengan tema wisuda kampus kami. Semua tamu langsung antri foto!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div>
+          <div class="testi-name">Rania Putri</div>
+          <div class="testi-event">Wisuda ITB 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card fade-up fade-up-d2">
+      <div class="stars">★★★★★</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Sangat profesional dan on-time. Foto tercetak langsung dan hasilnya kualitasnya premium banget. Tamu pernikahan kami senang semua!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div>
+          <div class="testi-name">Dimas & Sari</div>
+          <div class="testi-event">Wedding Reception, Bandung</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card fade-up fade-up-d3">
+      <div class="stars">★★★★★</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Untuk acara launching produk kami, Framesmile menambahkan logo brand dengan sangat rapi. Jadi kesan pertama yang tak terlupakan untuk semua peserta.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩‍💼</div>
+        <div>
+          <div class="testi-name">Lina Marliana</div>
+          <div class="testi-event">Marketing Manager, Startup Bandung</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="fade-up">
+    <span class="section-tag" style="color:var(--pink-100);">Siap Bareng Kami?</span>
+    <h2 class="section-title">Jadikan Eventmu Lebih<br><em>Berkesan & Tak Terlupakan</em></h2>
+    <p class="section-desc">Konsultasi gratis, tanpa komitmen. Tim kami siap membantu merencanakan photobooth impianmu.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/6281234567890?text=Halo%20Framesmile%2C%20saya%20ingin%20konsultasi%20photobooth!" class="btn-white">Chat WhatsApp</a>
+      <a href="mailto:hello@framesmile.id" class="btn-outline-white">Kirim Email</a>
+    </div>
+    <p class="cta-contact">Atau hubungi kami di <a href="tel:+628123456789">+62 812-3456-789</a> · Bandung, Jawa Barat</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="#" class="logo">frame<span>smile</span></a>
+    <p class="footer-tagline">Layanan photobooth terpercaya untuk momen-momen yang tak ternilai. Cetak langsung, berkesan selamanya.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Layanan</h4>
+    <ul>
+      <li><a href="#services">Wisuda</a></li>
+      <li><a href="#services">Pernikahan</a></li>
+      <li><a href="#services">Corporate Event</a></li>
+      <li><a href="#services">Event Spesial</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Info</h4>
+    <ul>
+      <li><a href="#how">Cara Kerja</a></li>
+      <li><a href="#usp">Keunggulan</a></li>
+      <li><a href="#testimonials">Testimoni</a></li>
+      <li><a href="#cta">Kontak</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Kontak</h4>
+    <ul>
+      <li><a href="https://wa.me/6281234567890">WhatsApp</a></li>
+      <li><a href="mailto:hello@framesmile.id">hello@framesmile.id</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">TikTok</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  © 2024 <span>Framesmile</span>. All rights reserved. · Bandung, Jawa Barat
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.tmpl').forEach((tmpl, i) => {
+    tmpl.addEventListener('click', function() {
+      document.querySelectorAll('.tmpl').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
